@@ -1,0 +1,30 @@
+[
+  {
+    "job": {
+      "id": "46ea1cc6-102d-4526-b395-741f22bdf12c",
+      "agent_id": "cdcca625-bd4f-437f-a246-fa3ff9c0d917",
+      "name": "daily-seo-rezervuary",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 * * *",
+        "tz": null
+      },
+      "action": {
+        "kind": "agent_turn",
+        "message": "Run the daily SEO workflow: 1) Fetch http://localhost/rezervuary-rgs-50/ using web_fetch and extract the product content (title, description, specs, applications). 2) Write an SEO-optimized article in Russian 300-400 words with keywords: резервуар РГС-50, горизонтальный стальной резервуар, ёмкость 50 м³. Include phone 8 (800) 250-63-35 as CTA. 3) Use web_fetch to POST the article to http://localhost/wp-json/wp/v2/posts with Authorization: Basic c2VvYWRtaW46ZGtaUE1nc3JXaWZacFZjRmNOaklhREFO, Content-Type: application/json, body: {title, content, status: publish, excerpt}. 4) After successful publish, send Telegram notification to chat 283500912 via bot 8591048587:AAElSAdCnxpHja3ujJpTQzp5HQBPw9BHVvw with the post URL. Return the published post URL.",
+        "model_override": null,
+        "timeout_secs": null
+      },
+      "delivery": {
+        "kind": "none"
+      },
+      "created_at": "2026-03-13T14:43:20.752257616Z",
+      "last_run": null,
+      "next_run": "2026-03-14T09:00:00Z"
+    },
+    "one_shot": false,
+    "last_status": null,
+    "consecutive_errors": 0
+  }
+]

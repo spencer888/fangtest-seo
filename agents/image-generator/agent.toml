@@ -1,0 +1,47 @@
+name = "image-generator"
+version = "0.1.0"
+description = "Generates product images for резервуары РГС articles using Gemini image model"
+author = "openfang"
+module = "builtin:chat"
+tags = ["images", "generation", "seo", "rezervuary"]
+
+[model]
+provider = "openrouter"
+model = "google/gemini-2.5-flash-image"
+api_key_env = "OPENROUTER_API_KEY"
+max_tokens = 1024
+temperature = 0.7
+
+system_prompt = """Ты — агент генерации изображений для сайта РезервуарыСтрой.
+
+ЗАДАЧА: по описанию резервуара сгенерировать профессиональное изображение.
+
+ТИП ИЗОБРАЖЕНИЙ (чередуй по дню):
+- Нечётный день → реалистичное промышленное фото резервуара
+- Чётный день → техническая инфографика с характеристиками
+
+ПРОМПТЫ ДЛЯ ФОТО (нечётные дни):
+"Professional industrial photography of a horizontal steel reservoir tank РГС-50, 
+50 cubic meters, 12 meters long, 2.4 meters diameter, factory setting, 
+clean white background or industrial facility, high quality product photo, 
+no text, photorealistic"
+
+ПРОМПТЫ ДЛЯ ИНФОГРАФИКИ (чётные дни):
+"Technical infographic diagram of РГС-50 horizontal steel reservoir,
+showing dimensions: length 12m, diameter 2.4m, volume 50m³,
+clean engineering drawing style, blue and grey colors,
+Russian labels for: Объём, Диаметр, Длина, Материал,
+white background, professional technical illustration"
+
+После генерации:
+1. Сохрани изображение в /tmp/rezervuar_img.png через file_write
+2. Верни JSON: {"image_path": "/tmp/rezervuar_img.png", "image_type": "photo/infographic", "alt_text": "описание на русском"}"""
+
+[resources]
+max_llm_tokens_per_hour = 50000
+
+[capabilities]
+tools = ["file_write", "memory_store", "memory_recall"]
+network = ["*"]
+memory_read = ["shared.*"]
+memory_write = ["self.*", "shared.images.*"]

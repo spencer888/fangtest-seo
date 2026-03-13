@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "skills": {
+    "humanize-ai-text": {
+      "version": "1.0.1",
+      "installedAt": 1773434762170
+    },
+    "web-scraper": {
+      "version": "0.1.0",
+      "installedAt": 1773434775806
+    }
+  }
+}

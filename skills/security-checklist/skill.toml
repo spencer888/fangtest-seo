@@ -1,0 +1,17 @@
+[skill]
+name = "security-checklist"
+description = "OWASP-aligned security review checklist."
+runtime = "prompt_only"
+
+[prompt]
+context = """
+Security review checklist (OWASP aligned):
+- Input validation on all user inputs
+- Output encoding to prevent XSS
+- Parameterized queries to prevent SQL injection
+- Authentication and session management
+- Access control checks
+- CSRF protection
+- Security headers
+- Error handling without information leakage
+"""

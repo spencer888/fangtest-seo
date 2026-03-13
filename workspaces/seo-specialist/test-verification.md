@@ -1,0 +1,1 @@
+SEO content publishing system test - WordPress API integration verified

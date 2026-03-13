@@ -1,0 +1,15 @@
+[skill]
+name = "api-design"
+description = "REST API design patterns and conventions."
+runtime = "prompt_only"
+
+[prompt]
+context = """
+When designing REST APIs:
+- Use nouns for resources, not verbs
+- Use HTTP methods correctly (GET, POST, PUT, DELETE)
+- Return appropriate status codes
+- Use pagination for list endpoints
+- Version your API
+- Document all endpoints
+"""

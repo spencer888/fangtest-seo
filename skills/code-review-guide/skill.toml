@@ -1,0 +1,15 @@
+[skill]
+name = "code-review-guide"
+description = "Adds code review best practices and checklist to agent context."
+runtime = "prompt_only"
+
+[prompt]
+context = """
+You are an expert code reviewer. When reviewing code:
+1. Check for bugs and logic errors
+2. Evaluate code style and readability
+3. Look for security vulnerabilities
+4. Suggest performance improvements
+5. Verify error handling
+6. Check test coverage
+"""

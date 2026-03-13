@@ -1,0 +1,26 @@
+# Secrets and sensitive data
+.env
+secrets.env
+.env.local
+*.key
+*.pem
+
+# Logs
+*.log
+tui.log
+openfang.db
+openfang.db-*
+
+# Temporary files
+/tmp/
+*.tmp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node modules (if any)
+node_modules/
+
+# Large binaries (keep only references)
+# bin/openfang binary is managed by the tool itself

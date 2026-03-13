@@ -1,0 +1,20 @@
+{
+  "name": "rezervuary-seo-content",
+  "description": "Генерирует SEO-контент для резервуара РГС",
+  "steps": [
+    {
+      "id": "step1",
+      "agent_name": "researcher",
+      "prompt": "Данные о резервуаре {{input.model}}. Спецификации: РГС-10(10м³,2000мм), РГС-25(25м³,2200мм), РГС-50(50м³,2400мм), РГС-75(75м³,2700мм), РГС-100(100м³,2800мм), РГС-200(200м³,3400мм), РГС-300(300м³,3600мм), РГС-500(500м³,4200мм), РГС-1000(1000м³,4600мм). Все: сталь Ст3сп/09Г2С, ГОСТ 34347-2017. Верни JSON: model, title, volume, diameter, length, material, gost, applications(4), keywords(3), faq(3 вопроса).",
+      "output_key": "research_data",
+      "wait_for_completion": true
+    },
+    {
+      "id": "step2",
+      "agent_name": "seo-specialist",
+      "prompt": "Напиши SEO-статью 600-800 слов. Данные: {{step1.output}}. Структура: H1, ввод(2-3 предл), характеристики(ul/li), применение(4 пункта), преимущества(4 пункта), доставка(2-3 предл), FAQ(3 вопроса h3+p), CTA(8-800-250-63-35). Стиль: деловой, активный залог, без AI-паттернов. Верни JSON: title, content(HTML), slug, meta_description, tags(5), keywords(3), focus_keyword, reading_time.",
+      "output_key": "article_data",
+      "wait_for_completion": true
+    }
+  ]
+}

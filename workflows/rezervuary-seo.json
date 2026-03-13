@@ -1,0 +1,48 @@
+{
+  "name": "rezervuary-seo-autopublish",
+  "description": "SEO workflow: генерирует и публикует статью про любой резервуар РГС. Принимает параметр model (например: РГС-75)",
+  "inputs": {
+    "model": {
+      "type": "string",
+      "description": "Модель резервуара (например: РГС-75, РГС-100)",
+      "required": true
+    }
+  },
+  "steps": [
+    {
+      "id": "step1-research",
+      "agent_name": "researcher",
+      "prompt": "Проанализируй модель резервуара {{model}} и верни структурированные данные:\n\nИзвестные спецификации по моделям:\n- РГС-10: 10 м³, диаметр 2000 мм, длина 3300 мм\n- РГС-25: 25 м³, диаметр 2200 мм, длина 5500 мм\n- РГС-50: 50 м³, диаметр 2400 мм, длина 11000 мм\n- РГС-75: 75 м³, диаметр 2700 мм, длина 13000 мм\n- РГС-100: 100 м³, диаметр 2800 мм, длина 16000 мм\n- РГС-200: 200 м³, диаметр 3400 мм, длина 21000 мм\n- РГС-300: 300 м³, диаметр 3600 мм, длина 28500 мм\n- РГС-500: 500 м³, диаметр 4200 мм, длина 36000 мм\n- РГС-1000: 1000 м³, диаметр 4600 мм, длина 60000 мм\n\nВсе модели:\n- Материал: сталь Ст3сп / 09Г2С\n- ГОСТ: 34347-2017\n- Тип: горизонтальный стальной\n\nВерни ТОЛЬКО JSON:\n{\n  \"model\": \"{{model}}\",\n  \"title\": \"полное название для H1\",\n  \"volume\": \"объём м³\",\n  \"diameter\": \"диаметр мм\",\n  \"length\": \"длина мм\",\n  \"material\": \"Сталь Ст3сп / 09Г2С\",\n  \"gost\": \"ГОСТ 34347-2017\",\n  \"applications\": [\"применение 1\", \"применение 2\", \"применение 3\", \"применение 4\"],\n  \"keywords\": [\"ключ 1\", \"ключ 2\", \"ключ 3\"],\n  \"faq\": [\n    {\"q\": \"вопрос 1\", \"a\": \"ответ 1\"},\n    {\"q\": \"вопрос 2\", \"a\": \"ответ 2\"},\n    {\"q\": \"вопрос 3\", \"a\": \"ответ 3\"}\n  ]\n}",
+      "output_key": "research_data",
+      "wait_for_completion": true
+    },
+    {
+      "id": "step2-seo-write",
+      "agent_name": "seo-specialist",
+      "prompt": "Напиши SEO-статью про резервуар на основе данных:\n{{step1-research.output}}\n\nТРЕБОВАНИЯ:\n- Длина: 600-800 слов (важно для SEO!)\n- Ключевые слова: используй все 3 keywords из данных, плотность 1-2 раза на 100 слов\n- Структура обязательная:\n  1. H1 заголовок (включая модель и ключевые слова)\n  2. Вводный абзац (2-3 предложения, что это и для чего)\n  3. Технические характеристики (список ul/li с объёмом, диаметром, длиной, материалом, ГОСТ)\n  4. Области применения (4 пункта: нефтебазы/АЗС, промышленность, сельское хозяйство, пожарные депо)\n  5. Преимущества (3-4 пункта: надёжность, соответствие ГОСТ, оптимальный объём, универсальность)\n  6. Доставка и монтаж (2-3 предложения — как отличает от конкурентов)\n  7. Часто задаваемые вопросы (3 пары Q&A в формате h3 + p)\n  8. CTA блок: Заказать расчёт стоимости: 8 (800) 250-63-35 (бесплатно по Казахстану)\n\nСТИЛЬ:\n- Деловой тон, активный залог\n- Профессиональная терминология\n- HTML-разметка: h1, h2 для секций, h3 для FAQ, p, ul/li, strong для выделения\n- Каждый абзац 3-4 предложения\n\nВерни ТОЛЬКО JSON без markdown:\n{\n  \"title\": \"H1 заголовок\",\n  \"content\": \"HTML контент всей статьи\",\n  \"slug\": \"transliterated-slug\",\n  \"meta_description\": \"описание 150-160 символов с ключевыми словами\",\n  \"tags\": [\"тег1\", \"тег2\", \"тег3\", \"тег4\", \"тег5\"],\n  \"keywords\": [\"ключ1\", \"ключ2\", \"ключ3\"],\n  \"focus_keyword\": \"главный ключ для ACF\",\n  \"reading_time\": \"5\"\n}",
+      "output_key": "article_data",
+      "wait_for_completion": true
+    },
+    {
+      "id": "step3-humanize",
+      "agent_name": "seo-specialist",
+      "prompt": "Проверь и улучши текст на естественность. Используй skill humanize-ai-text:\n\n1. Вызови: python3 ~/.openfang/skills/humanize-ai-text/scripts/detect.py проверь текст\n2. Если найдены AI-паттерны (delve, tapestry, pivotal, underscores, copula avoidance) — исправь\n3. Убедись что нет: \"As an AI\", \"I hope this helps\", курlyх кавычек, markdown-блоков\n\nВерни тот же JSON что и получил, но с улучшенным content:\n{{step2-seo-write.output}}",
+      "output_key": "article_humanized",
+      "wait_for_completion": true
+    },
+    {
+      "id": "step4-publish",
+      "agent_name": "wp-publisher",
+      "prompt": "Опубликуй статью в WordPress через REST API.\n\nДанные статьи: {{step3-humanize.output}}\n\nWordPress credentials:\n- URL: http://localhost\n- Username: seoadmin\n- App Password: 0f678d0464d7c4ba8d42514daa691889\n\nШаги:\n1. Найди ID категории \"Резервуары РГС\":\n   curl -s 'http://localhost/wp-json/wp/v2/categories?search=Резервуары+РГС' -u 'seoadmin:0f678d0464d7c4ba8d42514daa691889'\n\n2. Опубликуй пост с параметрами:\n   - title: из JSON\n   - content: из JSON\n   - status: publish\n   - excerpt: meta_description из JSON\n   - slug: slug из JSON\n   - categories: [ID категории]\n   - template: template-seo-article.php\n   - meta (ACF): seo_focus_keyword, seo_reading_time\n\n3. Если есть изображение — загрузи его в /wp-json/wp/v2/media и прикрепи как featured_media\n\nКоманда для публикации:\ncurl -s -X POST 'http://localhost/wp-json/wp/v2/posts' \\\n  -u 'seoadmin:0f678d0464d7c4ba8d42514daa691889' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\"title\": \"TITLE\", \"content\": \"CONTENT\", \"status\": \"publish\", \"excerpt\": \"META\", \"slug\": \"SLUG\", \"categories\": [CAT_ID], \"template\": \"template-seo-article.php\"}'\n\nВерни результат: URL поста и ID.",
+      "output_key": "publish_result",
+      "wait_for_completion": true
+    },
+    {
+      "id": "step5-notify",
+      "agent_name": "telegram-notifier",
+      "prompt": "Отправь уведомление в Telegram об успешной публикации.\n\nРезультат публикации: {{step4-publish.output}}\n\nСообщение:\n✅ Статья опубликована через OpenFang workflow!\n\n📝 {{step2-seo-write.output.title}}\n\n🔗 {{step4-publish.output.url}}\n\n📊 Post ID: {{step4-publish.output.id}}\n🤖 Workflow: researcher → seo-specialist → humanize → wp-publisher",
+      "output_key": "notify_result",
+      "wait_for_completion": false
+    }
+  ]
+}

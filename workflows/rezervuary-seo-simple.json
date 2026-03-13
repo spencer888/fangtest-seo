@@ -1,0 +1,27 @@
+{
+  "name": "rezervuary-seo-autopublish",
+  "description": "SEO workflow: генерирует и публикует статью про резервуар РГС",
+  "steps": [
+    {
+      "id": "step1-research",
+      "agent_name": "researcher",
+      "prompt": "Получи данные о резервуаре РГС-50 и верни JSON с полями: model, title, volume, diameter, length, material, gost, applications (список), keywords (список).",
+      "output_key": "research_data",
+      "wait_for_completion": true
+    },
+    {
+      "id": "step2-seo-write",
+      "agent_name": "seo-specialist",
+      "prompt": "Напиши SEO-статью на основе данных: {{step1-research.output}}. Требования: 600-800 слов, структура: H1, ввод, характеристики, применение, преимущества, доставка, FAQ (3 вопроса), CTA. Верни JSON: title, content (HTML), slug, meta_description, tags.",
+      "output_key": "article_data",
+      "wait_for_completion": true
+    },
+    {
+      "id": "step3-publish",
+      "agent_name": "wp-publisher",
+      "prompt": "Опубликуй статью в WordPress. Данные: {{step2-seo-write.output}}. Категория ID 9, шаблон template-seo-article.php. Верни URL и ID поста.",
+      "output_key": "publish_result",
+      "wait_for_completion": true
+    }
+  ]
+}
