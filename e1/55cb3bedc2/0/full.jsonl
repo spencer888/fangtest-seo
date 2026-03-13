@@ -7,13 +7,13 @@
     "title": "Git commit guidance",
     "version": "1.2.26",
     "summary": {
-      "additions": 412,
+      "additions": 417,
       "deletions": 1,
       "files": 20
     },
     "time": {
       "created": 1773439609026,
-      "updated": 1773442225672
+      "updated": 1773442241590
     }
   },
   "messages": [
@@ -11666,7 +11666,16 @@
           "created": 1773442214676
         },
         "summary": {
-          "diffs": []
+          "diffs": [
+            {
+              "file": ".entire/logs/entire.log",
+              "before": "{\"time\":\"2026-03-13T18:47:59.179520425-04:00\",\"level\":\"INFO\",\"msg\":\"turn-start\",\"component\":\"lifecycle\",\"agent\":\"opencode\",\"event\":\"TurnStart\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"session_ref\":\"/home/askerspencer/.openfang/.entire/tmp/ses_316c3173effeh72idG1kbRd6oh.json\",\"model\":\"\"}\n{\"time\":\"2026-03-13T18:47:59.44855207-04:00\",\"level\":\"INFO\",\"msg\":\"phase transition\",\"component\":\"session\",\"agent\":\"opencode\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"event\":\"TurnStart\",\"from\":\"\",\"to\":\"active\"}\n{\"time\":\"2026-03-13T18:47:59.52792877-04:00\",\"level\":\"INFO\",\"msg\":\"initialized shadow session\",\"component\":\"hooks\",\"agent\":\"opencode\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\"}\n{\"time\":\"2026-03-13T18:48:19.210792938-04:00\",\"level\":\"INFO\",\"msg\":\"prepare-commit-msg: agent commit trailer added\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"checkpoint\",\"strategy\":\"manual-commit\",\"source\":\"message\",\"checkpoint_id\":\"11723ca99189\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\"}\n{\"time\":\"2026-03-13T18:48:33.903579206-04:00\",\"level\":\"INFO\",\"msg\":\"session condensed\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"checkpoint\",\"strategy\":\"manual-commit\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"checkpoint_id\":\"11723ca99189\",\"checkpoints_condensed\":0,\"transcript_lines\":131}\n{\"time\":\"2026-03-13T18:48:33.905909836-04:00\",\"level\":\"INFO\",\"msg\":\"post-commit: carried forward remaining files\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"checkpoint\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"remaining_files\":2}\n{\"time\":\"2026-03-13T18:48:33.910022853-04:00\",\"level\":\"INFO\",\"msg\":\"shadow branch deleted\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"checkpoint\",\"strategy\":\"manual-commit\",\"shadow_branch\":\"entire/5735b5f-e3b0c4\"}\n{\"time\":\"2026-03-13T18:48:59.576755648-04:00\",\"level\":\"INFO\",\"msg\":\"turn-end\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"lifecycle\",\"agent\":\"opencode\",\"event\":\"TurnEnd\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"session_ref\":\"/home/askerspencer/.openfang/.entire/tmp/ses_316c3173effeh72idG1kbRd6oh.json\",\"model\":\"kimi-k2.5\"}\n{\"time\":\"2026-03-13T18:49:04.244704879-04:00\",\"level\":\"INFO\",\"msg\":\"committed changes to shadow branch\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"checkpoint\",\"agent\":\"opencode\",\"shadow_branch\":\"entire/c923eab-e3b0c4\"}\n{\"time\":\"2026-03-13T18:49:04.244724161-04:00\",\"level\":\"INFO\",\"msg\":\"checkpoint saved\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"checkpoint\",\"agent\":\"opencode\",\"strategy\":\"manual-commit\",\"checkpoint_type\":\"session\",\"checkpoint_count\":2,\"modified_files\":1,\"new_files\":0,\"deleted_files\":0,\"shadow_branch\":\"entire/c923eab-e3b0c4\",\"branch_created\":false}\n{\"time\":\"2026-03-13T18:49:04.244853018-04:00\",\"level\":\"INFO\",\"msg\":\"phase transition\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"session\",\"agent\":\"opencode\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"event\":\"TurnEnd\",\"from\":\"active\",\"to\":\"idle\"}\n{\"time\":\"2026-03-13T18:49:04.244862023-04:00\",\"level\":\"INFO\",\"msg\":\"finalizing turn checkpoints with full transcript\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"checkpoint\",\"agent\":\"opencode\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"checkpoint_count\":1}\n{\"time\":\"2026-03-13T18:49:06.261342777-04:00\",\"level\":\"INFO\",\"msg\":\"finalize: checkpoint updated with full transcript\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"checkpoint\",\"agent\":\"opencode\",\"checkpoint_id\":\"11723ca99189\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\"}\n{\"time\":\"2026-03-13T18:50:15.078556815-04:00\",\"level\":\"INFO\",\"msg\":\"turn-start\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"lifecycle\",\"agent\":\"opencode\",\"event\":\"TurnStart\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"session_ref\":\"/home/askerspencer/.openfang/.entire/tmp/ses_316c3173effeh72idG1kbRd6oh.json\",\"model\":\"kimi-k2.5\"}\n{\"time\":\"2026-03-13T18:50:15.177490163-04:00\",\"level\":\"INFO\",\"msg\":\"phase transition\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"session\",\"agent\":\"opencode\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"event\":\"TurnStart\",\"from\":\"idle\",\"to\":\"active\"}\n",
+              "after": "{\"time\":\"2026-03-13T18:47:59.179520425-04:00\",\"level\":\"INFO\",\"msg\":\"turn-start\",\"component\":\"lifecycle\",\"agent\":\"opencode\",\"event\":\"TurnStart\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"session_ref\":\"/home/askerspencer/.openfang/.entire/tmp/ses_316c3173effeh72idG1kbRd6oh.json\",\"model\":\"\"}\n{\"time\":\"2026-03-13T18:47:59.44855207-04:00\",\"level\":\"INFO\",\"msg\":\"phase transition\",\"component\":\"session\",\"agent\":\"opencode\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"event\":\"TurnStart\",\"from\":\"\",\"to\":\"active\"}\n{\"time\":\"2026-03-13T18:47:59.52792877-04:00\",\"level\":\"INFO\",\"msg\":\"initialized shadow session\",\"component\":\"hooks\",\"agent\":\"opencode\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\"}\n{\"time\":\"2026-03-13T18:48:19.210792938-04:00\",\"level\":\"INFO\",\"msg\":\"prepare-commit-msg: agent commit trailer added\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"checkpoint\",\"strategy\":\"manual-commit\",\"source\":\"message\",\"checkpoint_id\":\"11723ca99189\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\"}\n{\"time\":\"2026-03-13T18:48:33.903579206-04:00\",\"level\":\"INFO\",\"msg\":\"session condensed\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"checkpoint\",\"strategy\":\"manual-commit\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"checkpoint_id\":\"11723ca99189\",\"checkpoints_condensed\":0,\"transcript_lines\":131}\n{\"time\":\"2026-03-13T18:48:33.905909836-04:00\",\"level\":\"INFO\",\"msg\":\"post-commit: carried forward remaining files\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"checkpoint\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"remaining_files\":2}\n{\"time\":\"2026-03-13T18:48:33.910022853-04:00\",\"level\":\"INFO\",\"msg\":\"shadow branch deleted\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"checkpoint\",\"strategy\":\"manual-commit\",\"shadow_branch\":\"entire/5735b5f-e3b0c4\"}\n{\"time\":\"2026-03-13T18:48:59.576755648-04:00\",\"level\":\"INFO\",\"msg\":\"turn-end\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"lifecycle\",\"agent\":\"opencode\",\"event\":\"TurnEnd\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"session_ref\":\"/home/askerspencer/.openfang/.entire/tmp/ses_316c3173effeh72idG1kbRd6oh.json\",\"model\":\"kimi-k2.5\"}\n{\"time\":\"2026-03-13T18:49:04.244704879-04:00\",\"level\":\"INFO\",\"msg\":\"committed changes to shadow branch\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"checkpoint\",\"agent\":\"opencode\",\"shadow_branch\":\"entire/c923eab-e3b0c4\"}\n{\"time\":\"2026-03-13T18:49:04.244724161-04:00\",\"level\":\"INFO\",\"msg\":\"checkpoint saved\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"checkpoint\",\"agent\":\"opencode\",\"strategy\":\"manual-commit\",\"checkpoint_type\":\"session\",\"checkpoint_count\":2,\"modified_files\":1,\"new_files\":0,\"deleted_files\":0,\"shadow_branch\":\"entire/c923eab-e3b0c4\",\"branch_created\":false}\n{\"time\":\"2026-03-13T18:49:04.244853018-04:00\",\"level\":\"INFO\",\"msg\":\"phase transition\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"session\",\"agent\":\"opencode\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"event\":\"TurnEnd\",\"from\":\"active\",\"to\":\"idle\"}\n{\"time\":\"2026-03-13T18:49:04.244862023-04:00\",\"level\":\"INFO\",\"msg\":\"finalizing turn checkpoints with full transcript\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"checkpoint\",\"agent\":\"opencode\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"checkpoint_count\":1}\n{\"time\":\"2026-03-13T18:49:06.261342777-04:00\",\"level\":\"INFO\",\"msg\":\"finalize: checkpoint updated with full transcript\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"checkpoint\",\"agent\":\"opencode\",\"checkpoint_id\":\"11723ca99189\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\"}\n{\"time\":\"2026-03-13T18:50:15.078556815-04:00\",\"level\":\"INFO\",\"msg\":\"turn-start\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"lifecycle\",\"agent\":\"opencode\",\"event\":\"TurnStart\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"session_ref\":\"/home/askerspencer/.openfang/.entire/tmp/ses_316c3173effeh72idG1kbRd6oh.json\",\"model\":\"kimi-k2.5\"}\n{\"time\":\"2026-03-13T18:50:15.177490163-04:00\",\"level\":\"INFO\",\"msg\":\"phase transition\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"session\",\"agent\":\"opencode\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"event\":\"TurnStart\",\"from\":\"idle\",\"to\":\"active\"}\n{\"time\":\"2026-03-13T18:50:30.494110546-04:00\",\"level\":\"INFO\",\"msg\":\"prepare-commit-msg: agent commit trailer added\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"checkpoint\",\"strategy\":\"manual-commit\",\"source\":\"message\",\"checkpoint_id\":\"e155cb3bedc2\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\"}\n{\"time\":\"2026-03-13T18:50:33.85693247-04:00\",\"level\":\"INFO\",\"msg\":\"attribution calculated\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"attribution\",\"agent_lines\":6,\"human_added\":160,\"human_modified\":0,\"human_removed\":0,\"total_committed\":166,\"agent_percentage\":3.614457831325301,\"accumulated_user_added\":0,\"accumulated_user_removed\":0,\"files_touched\":1}\n{\"time\":\"2026-03-13T18:50:35.215645588-04:00\",\"level\":\"INFO\",\"msg\":\"session condensed\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"checkpoint\",\"strategy\":\"manual-commit\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"checkpoint_id\":\"e155cb3bedc2\",\"checkpoints_condensed\":2,\"transcript_lines\":138}\n{\"time\":\"2026-03-13T18:50:35.218266032-04:00\",\"level\":\"INFO\",\"msg\":\"post-commit: carried forward remaining files\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"checkpoint\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"remaining_files\":1}\n{\"time\":\"2026-03-13T18:50:35.227717874-04:00\",\"level\":\"INFO\",\"msg\":\"shadow branch deleted\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"checkpoint\",\"strategy\":\"manual-commit\",\"shadow_branch\":\"entire/c923eab-e3b0c4\"}\n",
+              "additions": 5,
+              "deletions": 0,
+              "status": "modified"
+            }
+          ]
         },
         "agent": "build",
         "model": {
@@ -11886,7 +11895,8 @@
       "info": {
         "role": "assistant",
         "time": {
-          "created": 1773442225351
+          "created": 1773442225351,
+          "completed": 1773442241154
         },
         "parentID": "msg_ce964aaa1001pMVgTZXh6uIfCk",
         "modelID": "kimi-k2.5",
@@ -11897,16 +11907,18 @@
           "cwd": "/home/askerspencer/.openfang",
           "root": "/home/askerspencer/.openfang"
         },
-        "cost": 0,
+        "cost": 0.0051382,
         "tokens": {
-          "input": 0,
-          "output": 0,
-          "reasoning": 0,
+          "total": 46719,
+          "input": 301,
+          "output": 82,
+          "reasoning": 26,
           "cache": {
-            "read": 0,
+            "read": 46336,
             "write": 0
           }
         },
+        "finish": "tool-calls",
         "id": "msg_ce964d4c7002VjUHjrToUcmdPu",
         "sessionID": "ses_316c3173effeh72idG1kbRd6oh"
       },
@@ -11934,18 +11946,138 @@
           "callID": "bash:85",
           "tool": "bash",
           "state": {
-            "status": "running",
+            "status": "completed",
             "input": {
               "command": "git add .entire/settings.json .opencode/ && git commit -m \"chore: add Entire configuration and OpenCode plugin\" && git push origin main",
               "description": "Commit Entire config and plugin, then push"
             },
+            "output": "[main 1353851] chore: add Entire configuration and OpenCode plugin\n 3 files changed, 166 insertions(+), 1 deletion(-)\n create mode 100644 .opencode/plugin.json\n create mode 100644 .opencode/plugins/entire.ts\n[entire] Pushing entire/checkpoints/v1 to origin...\nTo github.com:spencer888/fangtest-seo.git\n   c923eab..1353851  main -> main\n",
+            "title": "Commit Entire config and plugin, then push",
+            "metadata": {
+              "output": "[main 1353851] chore: add Entire configuration and OpenCode plugin\n 3 files changed, 166 insertions(+), 1 deletion(-)\n create mode 100644 .opencode/plugin.json\n create mode 100644 .opencode/plugins/entire.ts\n[entire] Pushing entire/checkpoints/v1 to origin...\nTo github.com:spencer888/fangtest-seo.git\n   c923eab..1353851  main -> main\n",
+              "exit": 0,
+              "description": "Commit Entire config and plugin, then push",
+              "truncated": false
+            },
             "time": {
-              "start": 1773442230429
+              "start": 1773442230429,
+              "end": 1773442241048
             }
           },
           "id": "REDACTED",
           "sessionID": "ses_316c3173effeh72idG1kbRd6oh",
           "messageID": "msg_ce964d4c7002VjUHjrToUcmdPu"
+        },
+        {
+          "type": "step-finish",
+          "reason": "tool-calls",
+          "snapshot": "d52baea76991a0fb4dbd56fc162df5f221a73139",
+          "cost": 0.0051382,
+          "tokens": {
+            "total": 46719,
+            "input": 301,
+            "output": 82,
+            "reasoning": 26,
+            "cache": {
+              "read": 46336,
+              "write": 0
+            }
+          },
+          "id": "prt_ce965121a001buMCZ1nwnndubn",
+          "sessionID": "ses_316c3173effeh72idG1kbRd6oh",
+          "messageID": "msg_ce964d4c7002VjUHjrToUcmdPu"
+        },
+        {
+          "type": "patch",
+          "hash": "63cb1553d89d66abd79b1221bcdd2bb8453cc3b6",
+          "files": [
+            "/home/askerspencer/.openfang/.entire/logs/entire.log"
+          ],
+          "id": "prt_ce96512730017A5S32HQoiYLve",
+          "sessionID": "ses_316c3173effeh72idG1kbRd6oh",
+          "messageID": "msg_ce964d4c7002VjUHjrToUcmdPu"
+        }
+      ]
+    },
+    {
+      "info": {
+        "role": "assistant",
+        "time": {
+          "created": 1773442241197,
+          "completed": 1773442247071
+        },
+        "parentID": "msg_ce964aaa1001pMVgTZXh6uIfCk",
+        "modelID": "kimi-k2.5",
+        "providerID": "opencode-go",
+        "mode": "build",
+        "agent": "build",
+        "path": {
+          "cwd": "/home/askerspencer/.openfang",
+          "root": "/home/askerspencer/.openfang"
+        },
+        "cost": 0.0052556,
+        "tokens": {
+          "total": 46965,
+          "input": 244,
+          "output": 129,
+          "reasoning": 21,
+          "cache": {
+            "read": 46592,
+            "write": 0
+          }
+        },
+        "finish": "stop",
+        "id": "msg_ce96512ad00207xc9DDIDDbUhq",
+        "sessionID": "ses_316c3173effeh72idG1kbRd6oh"
+      },
+      "parts": [
+        {
+          "type": "step-start",
+          "snapshot": "d52baea76991a0fb4dbd56fc162df5f221a73139",
+          "id": "REDACTED",
+          "sessionID": "ses_316c3173effeh72idG1kbRd6oh",
+          "messageID": "msg_ce96512ad00207xc9DDIDDbUhq"
+        },
+        {
+          "type": "reasoning",
+          "text": "Perfect! The push is complete. Everything has been committed and pushed to GitHub.",
+          "time": {
+            "start": 1773442245652,
+            "end": 1773442246997
+          },
+          "id": "REDACTED",
+          "sessionID": "ses_316c3173effeh72idG1kbRd6oh",
+          "messageID": "msg_ce96512ad00207xc9DDIDDbUhq"
+        },
+        {
+          "type": "text",
+          "text": "Готово! Push завершён. \n\n**Результат:**\n- Коммит: `chore: add Entire configuration and OpenCode plugin`\n- 3 файла добавлено (настройки Entire и плагин OpenCode)\n- Чекпоинты синхронизированы с entire.io\n\nОбновите страницу https://entire.io/ — теперь там должны отображаться все чекпоинты с вашими сессиями.",
+          "time": {
+            "start": 1773442246999,
+            "end": 1773442246999
+          },
+          "id": "prt_ce9652419001O14D0fwS83vM3R",
+          "sessionID": "ses_316c3173effeh72idG1kbRd6oh",
+          "messageID": "msg_ce96512ad00207xc9DDIDDbUhq"
+        },
+        {
+          "type": "step-finish",
+          "reason": "stop",
+          "snapshot": "d52baea76991a0fb4dbd56fc162df5f221a73139",
+          "cost": 0.0052556,
+          "tokens": {
+            "total": 46965,
+            "input": 244,
+            "output": 129,
+            "reasoning": 21,
+            "cache": {
+              "read": 46592,
+              "write": 0
+            }
+          },
+          "id": "prt_ce965295900157Cer6PhtK9hlv",
+          "sessionID": "ses_316c3173effeh72idG1kbRd6oh",
+          "messageID": "msg_ce96512ad00207xc9DDIDDbUhq"
         }
       ]
     }
