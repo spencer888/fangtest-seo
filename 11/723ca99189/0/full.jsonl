@@ -7,13 +7,13 @@
     "title": "Git commit guidance",
     "version": "1.2.26",
     "summary": {
-      "additions": 399,
+      "additions": 404,
       "deletions": 1,
-      "files": 19
+      "files": 20
     },
     "time": {
       "created": 1773439609026,
-      "updated": 1773442094132
+      "updated": 1773442133459
     }
   },
   "messages": [
@@ -11126,7 +11126,24 @@
           "created": 1773442078784
         },
         "summary": {
-          "diffs": []
+          "diffs": [
+            {
+              "file": ".entire/logs/entire.log",
+              "before": "{\"time\":\"2026-03-13T18:47:59.179520425-04:00\",\"level\":\"INFO\",\"msg\":\"turn-start\",\"component\":\"lifecycle\",\"agent\":\"opencode\",\"event\":\"TurnStart\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"session_ref\":\"/home/askerspencer/.openfang/.entire/tmp/ses_316c3173effeh72idG1kbRd6oh.json\",\"model\":\"\"}\n{\"time\":\"2026-03-13T18:47:59.44855207-04:00\",\"level\":\"INFO\",\"msg\":\"phase transition\",\"component\":\"session\",\"agent\":\"opencode\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"event\":\"TurnStart\",\"from\":\"\",\"to\":\"active\"}\n{\"time\":\"2026-03-13T18:47:59.52792877-04:00\",\"level\":\"INFO\",\"msg\":\"initialized shadow session\",\"component\":\"hooks\",\"agent\":\"opencode\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\"}\n",
+              "after": "{\"time\":\"2026-03-13T18:47:59.179520425-04:00\",\"level\":\"INFO\",\"msg\":\"turn-start\",\"component\":\"lifecycle\",\"agent\":\"opencode\",\"event\":\"TurnStart\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"session_ref\":\"/home/askerspencer/.openfang/.entire/tmp/ses_316c3173effeh72idG1kbRd6oh.json\",\"model\":\"\"}\n{\"time\":\"2026-03-13T18:47:59.44855207-04:00\",\"level\":\"INFO\",\"msg\":\"phase transition\",\"component\":\"session\",\"agent\":\"opencode\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"event\":\"TurnStart\",\"from\":\"\",\"to\":\"active\"}\n{\"time\":\"2026-03-13T18:47:59.52792877-04:00\",\"level\":\"INFO\",\"msg\":\"initialized shadow session\",\"component\":\"hooks\",\"agent\":\"opencode\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\"}\n{\"time\":\"2026-03-13T18:48:19.210792938-04:00\",\"level\":\"INFO\",\"msg\":\"prepare-commit-msg: agent commit trailer added\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"checkpoint\",\"strategy\":\"manual-commit\",\"source\":\"message\",\"checkpoint_id\":\"11723ca99189\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\"}\n{\"time\":\"2026-03-13T18:48:33.903579206-04:00\",\"level\":\"INFO\",\"msg\":\"session condensed\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"checkpoint\",\"strategy\":\"manual-commit\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"checkpoint_id\":\"11723ca99189\",\"checkpoints_condensed\":0,\"transcript_lines\":131}\n{\"time\":\"2026-03-13T18:48:33.905909836-04:00\",\"level\":\"INFO\",\"msg\":\"post-commit: carried forward remaining files\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"checkpoint\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"remaining_files\":2}\n{\"time\":\"2026-03-13T18:48:33.910022853-04:00\",\"level\":\"INFO\",\"msg\":\"shadow branch deleted\",\"session_id\":\"ses_316c3173effeh72idG1kbRd6oh\",\"component\":\"checkpoint\",\"strategy\":\"manual-commit\",\"shadow_branch\":\"entire/5735b5f-e3b0c4\"}\n",
+              "additions": 4,
+              "deletions": 0,
+              "status": "modified"
+            },
+            {
+              "file": "entire-final.md",
+              "before": "",
+              "after": "# Final Entire test after restart\n",
+              "additions": 1,
+              "deletions": 0,
+              "status": "added"
+            }
+          ]
         },
         "agent": "build",
         "model": {
@@ -11248,7 +11265,8 @@
       "info": {
         "role": "assistant",
         "time": {
-          "created": 1773442093476
+          "created": 1773442093476,
+          "completed": 1773442114051
         },
         "parentID": "msg_ce962980b001wFMNfwaZbqsTBZ",
         "modelID": "kimi-k2.5",
@@ -11259,16 +11277,18 @@
           "cwd": "/home/askerspencer/.openfang",
           "root": "/home/askerspencer/.openfang"
         },
-        "cost": 0,
+        "cost": 0.0056184,
         "tokens": {
-          "input": 0,
-          "output": 0,
-          "reasoning": 0,
+          "total": 45816,
+          "input": 372,
+          "output": 132,
+          "reasoning": 156,
           "cache": {
-            "read": 0,
+            "read": 45312,
             "write": 0
           }
         },
+        "finish": "tool-calls",
         "id": "msg_ce962d1a30027LCsgHTktTBkDH",
         "sessionID": "ses_316c3173effeh72idG1kbRd6oh"
       },
@@ -11296,18 +11316,346 @@
           "callID": "bash:80",
           "tool": "bash",
           "state": {
-            "status": "running",
+            "status": "completed",
             "input": {
               "command": "echo \"# Final Entire test after restart\" >> entire-final.md && git add entire-final.md && git commit -m \"test: final Entire checkpoint test after restart\"",
               "description": "Create final test commit"
             },
+            "output": "[main c923eab] test: final Entire checkpoint test after restart\n 1 file changed, 1 insertion(+)\n create mode 100644 entire-final.md\n",
+            "title": "Create final test commit",
+            "metadata": {
+              "output": "[main c923eab] test: final Entire checkpoint test after restart\n 1 file changed, 1 insertion(+)\n create mode 100644 entire-final.md\n",
+              "exit": 0,
+              "description": "Create final test commit",
+              "truncated": false
+            },
             "time": {
-              "start": 1773442099099
+              "start": 1773442099099,
+              "end": 1773442113930
             }
           },
           "id": "REDACTED",
           "sessionID": "ses_316c3173effeh72idG1kbRd6oh",
           "messageID": "msg_ce962d1a30027LCsgHTktTBkDH"
+        },
+        {
+          "type": "step-finish",
+          "reason": "tool-calls",
+          "snapshot": "20920832502170c681a6731fe0e456d08845860a",
+          "cost": 0.0056184,
+          "tokens": {
+            "total": 45816,
+            "input": 372,
+            "output": 132,
+            "reasoning": 156,
+            "cache": {
+              "read": 45312,
+              "write": 0
+            }
+          },
+          "id": "prt_ce9632191001ge3YVkvRua988d",
+          "sessionID": "ses_316c3173effeh72idG1kbRd6oh",
+          "messageID": "msg_ce962d1a30027LCsgHTktTBkDH"
+        },
+        {
+          "type": "patch",
+          "hash": "ed242bf0402ac704c11f3599afb483b64708525d",
+          "files": [
+            "/home/askerspencer/.openfang/.entire/logs/entire.log",
+            "/home/askerspencer/.openfang/entire-final.md"
+          ],
+          "id": "REDACTED",
+          "sessionID": "ses_316c3173effeh72idG1kbRd6oh",
+          "messageID": "msg_ce962d1a30027LCsgHTktTBkDH"
+        }
+      ]
+    },
+    {
+      "info": {
+        "role": "assistant",
+        "time": {
+          "created": 1773442114087,
+          "completed": 1773442120008
+        },
+        "parentID": "msg_ce962980b001wFMNfwaZbqsTBZ",
+        "modelID": "kimi-k2.5",
+        "providerID": "opencode-go",
+        "mode": "build",
+        "agent": "build",
+        "path": {
+          "cwd": "/home/askerspencer/.openfang",
+          "root": "/home/askerspencer/.openfang"
+        },
+        "cost": 0.0057328,
+        "tokens": {
+          "total": 45999,
+          "input": 300,
+          "output": 131,
+          "reasoning": 201,
+          "cache": {
+            "read": 45568,
+            "write": 0
+          }
+        },
+        "finish": "tool-calls",
+        "id": "msg_ce9632227002FX9AKnm1JePUMC",
+        "sessionID": "ses_316c3173effeh72idG1kbRd6oh"
+      },
+      "parts": [
+        {
+          "type": "step-start",
+          "snapshot": "20920832502170c681a6731fe0e456d08845860a",
+          "id": "prt_ce96331df00143g3yW8lkqh5lp",
+          "sessionID": "ses_316c3173effeh72idG1kbRd6oh",
+          "messageID": "msg_ce9632227002FX9AKnm1JePUMC"
+        },
+        {
+          "type": "reasoning",
+          "text": "Коммит создан. Теперь нужно запушить и проверить, создался ли чекпоинт. Но чекпоинты создаются через Git hooks, которые вызываются при коммите, так что должен был создаться чекпоинт.\n\nДавайте проверим explain ещё раз и посмотрим на файлы в .entire/.",
+          "time": {
+            "start": 1773442118112,
+            "end": 1773442119883
+          },
+          "id": "prt_ce96331e0001bAjyJ7YA3p2Yj3",
+          "sessionID": "ses_316c3173effeh72idG1kbRd6oh",
+          "messageID": "msg_ce9632227002FX9AKnm1JePUMC"
+        },
+        {
+          "type": "tool",
+          "callID": "bash:81",
+          "tool": "bash",
+          "state": {
+            "status": "completed",
+            "input": {
+              "command": "entire explain && ls -la .entire/",
+              "description": "Check checkpoints and .entire directory"
+            },
+            "output": "Branch: main\nCheckpoints: 2\n\n[ses_316c3173] [temporary] (no prompt)\n  03-13 18:48 (bce47d9) carry forward: uncommitted session files\n\n[11723ca99189] \"did\"\n  03-13 18:48 (c923eab) test: final Entire checkpoint test after restart\n\ntotal 32\ndrwxr-xr-x  5 askerspencer askerspencer 4096 Mar 13 18:47 .\ndrwxrwxr-x 13 askerspencer askerspencer 4096 Mar 13 18:48 ..\n-rw-rw-r--  1 askerspencer askerspencer   41 Mar 13 18:37 .gitignore\ndrwxr-x---  2 askerspencer askerspencer 4096 Mar 13 17:45 logs\ndrwxr-x---  3 askerspencer askerspencer 4096 Mar 13 18:47 metadata\n-rw-rw-r--  1 askerspencer askerspencer   43 Mar 13 18:45 settings.json\n-rw-r--r--  1 askerspencer askerspencer   43 Mar 13 18:43 settings.local.json\ndrwxr-x---  2 askerspencer askerspencer 4096 Mar 13 18:48 tmp\n",
+            "title": "Check checkpoints and .entire directory",
+            "metadata": {
+              "output": "Branch: main\nCheckpoints: 2\n\n[ses_316c3173] [temporary] (no prompt)\n  03-13 18:48 (bce47d9) carry forward: uncommitted session files\n\n[11723ca99189] \"did\"\n  03-13 18:48 (c923eab) test: final Entire checkpoint test after restart\n\ntotal 32\ndrwxr-xr-x  5 askerspencer askerspencer 4096 Mar 13 18:47 .\ndrwxrwxr-x 13 askerspencer askerspencer 4096 Mar 13 18:48 ..\n-rw-rw-r--  1 askerspencer askerspencer   41 Mar 13 18:37 .gitignore\ndrwxr-x---  2 askerspencer askerspencer 4096 Mar 13 17:45 logs\ndrwxr-x---  3 askerspencer askerspencer 4096 Mar 13 18:47 metadata\n-rw-rw-r--  1 askerspencer askerspencer   43 Mar 13 18:45 settings.json\n-rw-r--r--  1 askerspencer askerspencer   43 Mar 13 18:43 settings.local.json\ndrwxr-x---  2 askerspencer askerspencer 4096 Mar 13 18:48 tmp\n",
+              "exit": 0,
+              "description": "Check checkpoints and .entire directory",
+              "truncated": false
+            },
+            "time": {
+              "start": 1773442119877,
+              "end": 1773442119932
+            }
+          },
+          "id": "prt_ce96336f6001AWvDct4xLW9S72",
+          "sessionID": "ses_316c3173effeh72idG1kbRd6oh",
+          "messageID": "msg_ce9632227002FX9AKnm1JePUMC"
+        },
+        {
+          "type": "step-finish",
+          "reason": "tool-calls",
+          "snapshot": "20920832502170c681a6731fe0e456d08845860a",
+          "cost": 0.0057328,
+          "tokens": {
+            "total": 45999,
+            "input": 300,
+            "output": 131,
+            "reasoning": 201,
+            "cache": {
+              "read": 45568,
+              "write": 0
+            }
+          },
+          "id": "prt_ce96339010013TzFXHUwkvU5uQ",
+          "sessionID": "ses_316c3173effeh72idG1kbRd6oh",
+          "messageID": "msg_ce9632227002FX9AKnm1JePUMC"
+        }
+      ]
+    },
+    {
+      "info": {
+        "role": "assistant",
+        "time": {
+          "created": 1773442120063,
+          "completed": 1773442133125
+        },
+        "parentID": "msg_ce962980b001wFMNfwaZbqsTBZ",
+        "modelID": "kimi-k2.5",
+        "providerID": "opencode-go",
+        "mode": "build",
+        "agent": "build",
+        "path": {
+          "cwd": "/home/askerspencer/.openfang",
+          "root": "/home/askerspencer/.openfang"
+        },
+        "cost": 0.0058448,
+        "tokens": {
+          "total": 46495,
+          "input": 509,
+          "output": 162,
+          "reasoning": 157,
+          "cache": {
+            "read": 45824,
+            "write": 0
+          }
+        },
+        "finish": "tool-calls",
+        "id": "msg_ce963397f0023JQzuJcXyPYNwL",
+        "sessionID": "ses_316c3173effeh72idG1kbRd6oh"
+      },
+      "parts": [
+        {
+          "type": "step-start",
+          "snapshot": "20920832502170c681a6731fe0e456d08845860a",
+          "id": "prt_ce9634d090016fb1ZT2a4504et",
+          "sessionID": "ses_316c3173effeh72idG1kbRd6oh",
+          "messageID": "msg_ce963397f0023JQzuJcXyPYNwL"
+        },
+        {
+          "type": "reasoning",
+          "text": "Отлично! Чекпоинты появились! Теперь есть 2 чекпоинта:\n1. `[ses_316c3173]` - временный чекпоинт\n2. `[11723ca99189]` \"did\" - наш коммит \"test: final Entire checkpoint test after restart\"\n\nТеперь нужно запушить на GitHub, и чекпоинты должны появиться на entire.io.",
+          "time": {
+            "start": 1773442125067,
+            "end": 1773442127062
+          },
+          "id": "REDACTED",
+          "sessionID": "ses_316c3173effeh72idG1kbRd6oh",
+          "messageID": "msg_ce963397f0023JQzuJcXyPYNwL"
+        },
+        {
+          "type": "text",
+          "text": "Отлично! Чекпоинты появились! Теперь запушим на GitHub:",
+          "time": {
+            "start": 1773442127065,
+            "end": 1773442127065
+          },
+          "id": "prt_ce963522c001WrM55zmciydkr3",
+          "sessionID": "ses_316c3173effeh72idG1kbRd6oh",
+          "messageID": "msg_ce963397f0023JQzuJcXyPYNwL"
+        },
+        {
+          "type": "tool",
+          "callID": "bash:82",
+          "tool": "bash",
+          "state": {
+            "status": "completed",
+            "input": {
+              "command": "git push origin main",
+              "description": "Push to trigger Entire checkpoint sync"
+            },
+            "output": "[entire] Pushing entire/checkpoints/v1 to origin...\nTo github.com:spencer888/fangtest-seo.git\n   c0110af..c923eab  main -> main\n",
+            "title": "Push to trigger Entire checkpoint sync",
+            "metadata": {
+              "output": "[entire] Pushing entire/checkpoints/v1 to origin...\nTo github.com:spencer888/fangtest-seo.git\n   c0110af..c923eab  main -> main\n",
+              "exit": 0,
+              "description": "Push to trigger Entire checkpoint sync",
+              "truncated": false
+            },
+            "time": {
+              "start": 1773442127016,
+              "end": 1773442133054
+            }
+          },
+          "id": "prt_ce96353e1001j0ocXLyt6p3qgH",
+          "sessionID": "ses_316c3173effeh72idG1kbRd6oh",
+          "messageID": "msg_ce963397f0023JQzuJcXyPYNwL"
+        },
+        {
+          "type": "step-finish",
+          "reason": "tool-calls",
+          "snapshot": "20920832502170c681a6731fe0e456d08845860a",
+          "cost": 0.0058448,
+          "tokens": {
+            "total": 46495,
+            "input": 509,
+            "output": 162,
+            "reasoning": 157,
+            "cache": {
+              "read": 45824,
+              "write": 0
+            }
+          },
+          "id": "prt_ce9636c3f001PfhvM59guW5Fc2",
+          "sessionID": "ses_316c3173effeh72idG1kbRd6oh",
+          "messageID": "msg_ce963397f0023JQzuJcXyPYNwL"
+        }
+      ]
+    },
+    {
+      "info": {
+        "role": "assistant",
+        "time": {
+          "created": 1773442133156,
+          "completed": 1773442139507
+        },
+        "parentID": "msg_ce962980b001wFMNfwaZbqsTBZ",
+        "modelID": "kimi-k2.5",
+        "providerID": "opencode-go",
+        "mode": "build",
+        "agent": "build",
+        "path": {
+          "cwd": "/home/askerspencer/.openfang",
+          "root": "/home/askerspencer/.openfang"
+        },
+        "cost": 0.0054834,
+        "tokens": {
+          "total": 46671,
+          "input": 474,
+          "output": 117,
+          "reasoning": 80,
+          "cache": {
+            "read": 46080,
+            "write": 0
+          }
+        },
+        "finish": "stop",
+        "id": "msg_ce9636ca4002uAipo1aW6U5Uri",
+        "sessionID": "ses_316c3173effeh72idG1kbRd6oh"
+      },
+      "parts": [
+        {
+          "type": "step-start",
+          "snapshot": "20920832502170c681a6731fe0e456d08845860a",
+          "id": "prt_ce9637fdc001GWc0V15DXnuEdM",
+          "sessionID": "ses_316c3173effeh72idG1kbRd6oh",
+          "messageID": "msg_ce9636ca4002uAipo1aW6U5Uri"
+        },
+        {
+          "type": "reasoning",
+          "text": "Отлично! Пуш прошёл, и Entire также запушил ветку entire/checkpoints/v1. Теперь чекпоинты должны появиться на entire.io.",
+          "time": {
+            "start": 1773442138078,
+            "end": 1773442139422
+          },
+          "id": "prt_ce9637fde001PnnyfpPzzIsPgU",
+          "sessionID": "ses_316c3173effeh72idG1kbRd6oh",
+          "messageID": "msg_ce9636ca4002uAipo1aW6U5Uri"
+        },
+        {
+          "type": "text",
+          "text": "Готово! Чекпоинты созданы и запушены. Обновите https://entire.io/ — теперь должны появиться:\n- Чекпоинт \"did\" (ваше сообщение)\n- Коммит: `test: final Entire checkpoint test after restart`",
+          "time": {
+            "start": 1773442139424,
+            "end": 1773442139424
+          },
+          "id": "REDACTED",
+          "sessionID": "ses_316c3173effeh72idG1kbRd6oh",
+          "messageID": "msg_ce9636ca4002uAipo1aW6U5Uri"
+        },
+        {
+          "type": "step-finish",
+          "reason": "stop",
+          "snapshot": "20920832502170c681a6731fe0e456d08845860a",
+          "cost": 0.0054834,
+          "tokens": {
+            "total": 46671,
+            "input": 474,
+            "output": 117,
+            "reasoning": 80,
+            "cache": {
+              "read": 46080,
+              "write": 0
+            }
+          },
+          "id": "prt_ce9638522001cNlDF7t4etNKxA",
+          "sessionID": "ses_316c3173effeh72idG1kbRd6oh",
+          "messageID": "msg_ce9636ca4002uAipo1aW6U5Uri"
         }
       ]
     }
