@@ -1,5 +1,6 @@
 api_listen = "127.0.0.1:4200"
 network_enabled = true
+log_level = "warn"
 
 [channels.telegram]
 allowed_users = [283500912]
