@@ -73,7 +73,7 @@ log "Тип изображения: $IMG_TYPE"
 # Генерируем изображение через OpenRouter API напрямую
 # modalities=["text","image"] обязателен — без него Gemini возвращает только текст
 IMG_RESULT=$(curl -s -X POST "https://openrouter.ai/api/v1/chat/completions" \
-  -H "Authorization: Bearer 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" \
+  -H "Authorization: Bearer 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" \
   -H "Content-Type: application/json" \
   -d "{
     \"model\": \"google/gemini-2.5-flash-image\",
@@ -95,10 +95,14 @@ try:
     # 1. Проверяем message.images (основной путь для OpenRouter)
     images = msg.get('images', [])
     if images:
-        url = images[0].get('image_url', {}).get('url', '')
-        if url.startswith('data:image'):
-            print(url.split(',', 1)[1])
-            sys.exit(0)
+        img = images[0]
+        if isinstance(img, dict):
+            url = img.get('image_url', {})
+            if isinstance(url, dict):
+                url = url.get('url', '')
+            if isinstance(url, str) and url.startswith('data:image'):
+                print(url.split(',', 1)[1])
+                sys.exit(0)
 
     # 2. Fallback: content как список (стандарт OpenAI)
     content = msg.get('content', '')
