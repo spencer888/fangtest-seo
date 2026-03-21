@@ -1,21 +1,25 @@
 #!/bin/bash
 # ============================================================
-# Telegram Poller — РезервуарыСтрой SEO Bot v2.0
-# Улучшенная версия: 600-800 слов, FAQ, шаблон SEO, humanize
+# Telegram Poller — РезервуарыСтрой SEO Bot v2.1
+# Улучшения: секреты из .env, pipefail, оптимизация JSON
 # ============================================================
 
-set -u
+set -eo pipefail
 
-TG_TOKEN="8591048587:AAElSAdCnxpHja3ujJpTQzp5HQBPw9BHVvw"
-TG_CHAT="283500912"
+# Загружаем секреты из .env
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -f "${SCRIPT_DIR}/.env" ]; then
+    # shellcheck source=.env
+    source "${SCRIPT_DIR}/.env"
+else
+    echo "ОШИБКА: файл .env не найден. Скопируйте .env.example → .env" >&2
+    exit 1
+fi
+
 TG_API="https://api.telegram.org/bot${TG_TOKEN}"
 
-WP_AUTH="Basic c2VvYWRtaW46ZGtaUE1nc3JXaWZacFZjRmNOaklhREFO"
-WP_URL="http://localhost"
-OPENROUTER_KEY="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"
-
-LOG="/home/askerspencer/.openfang/data/poller.log"
-OFFSET_FILE="/home/askerspencer/.openfang/data/tg_offset"
+LOG="${LOG_DIR}/poller.log"
+OFFSET_FILE="${LOG_DIR}/tg_offset"
 
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" | tee -a "$LOG"; }
 
@@ -35,7 +39,7 @@ generate_article() {
     local data="${specs[$num]:-}"
     [ -z "$data" ] && { echo "ERROR"; return 1; }
     local volume="${data%%|*}" diameter="${data#*|}"; diameter="${diameter%%|*}" length="${data##*|}"
-    
+
     local prompt="Ты — SEO-копирайтер для РезервуарыСтрой. Напиши статью про ${model}.
 
 ДАННЫЕ:
@@ -79,8 +83,10 @@ else: print(json.dumps({'error':'no_json'}))
 
 publish_wp() {
     local title="$1" content="$2" meta="$3" slug="$4"
-    local cat_id=$(curl -s "${WP_URL}/wp-json/wp/v2/categories?slug=rezervuary-rgs" -H "Authorization: ${WP_AUTH}" 2>/dev/null | python3 -c "import json,sys; d=json.load(sys.stdin); print(d[0]['id'] if d else 9)")
-    local payload=$(python3 -c "import json,sys; print(json.dumps({'title':sys.argv[1],'content':sys.argv[2],'status':'publish','excerpt':sys.argv[3],'slug':sys.argv[4],'categories':[int(sys.argv[5])],'template':'template-seo-article.php'}, ensure_ascii=False))" "$title" "$content" "$meta" "$slug" "$cat_id")
+    local cat_id
+    cat_id=$(curl -s "${WP_URL}/wp-json/wp/v2/categories?slug=rezervuary-rgs" -H "Authorization: ${WP_AUTH}" 2>/dev/null | python3 -c "import json,sys; d=json.load(sys.stdin); print(d[0]['id'] if d else 9)")
+    local payload
+    payload=$(python3 -c "import json,sys; print(json.dumps({'title':sys.argv[1],'content':sys.argv[2],'status':'publish','excerpt':sys.argv[3],'slug':sys.argv[4],'categories':[int(sys.argv[5])],'template':'template-seo-article.php'}, ensure_ascii=False))" "$title" "$content" "$meta" "$slug" "$cat_id")
     curl -s -X POST "${WP_URL}/wp-json/wp/v2/posts" -H "Authorization: ${WP_AUTH}" -H "Content-Type: application/json" -d "$payload" 2>/dev/null
 }
 
@@ -88,42 +94,57 @@ run_workflow() {
     local model="$1"
     log "▶ Workflow для: $model"
     tg_send "⚙️ Генерирую статью для <b>${model}</b>..."
-    
+
     # Генерация
     log "  [1/3] Генерация..."
-    local article_json=$(generate_article "$model" | parse_article)
-    
+    local article_json
+    article_json=$(generate_article "$model" | parse_article)
+
     if echo "$article_json" | grep -q '"error"'; then
         log "  ❌ Ошибка генерации"
         tg_send "❌ Ошибка генерации"
         return 1
     fi
-    
-    local title=$(echo "$article_json" | python3 -c "import json,sys; print(json.load(sys.stdin).get('title',''))")
-    local content=$(echo "$article_json" | python3 -c "import json,sys; print(json.load(sys.stdin).get('content',''))")
-    local meta=$(echo "$article_json" | python3 -c "import json,sys; print(json.load(sys.stdin).get('meta_description',''))")
-    local slug=$(echo "$article_json" | python3 -c "import json,sys; print(json.load(sys.stdin).get('slug',''))")
-    local keywords=$(echo "$article_json" | python3 -c "import json,sys; print(', '.join(json.load(sys.stdin).get('keywords',[])))")
-    
+
+    # Парсим JSON один раз, извлекаем все поля
+    local parsed
+    parsed=$(echo "$article_json" | python3 -c "
+import json, sys
+d = json.load(sys.stdin)
+print(d.get('title', ''))
+print(d.get('content', ''))
+print(d.get('meta_description', ''))
+print(d.get('slug', ''))
+print(', '.join(d.get('keywords', [])))
+")
+    local title content meta slug keywords
+    title=$(echo "$parsed" | sed -n '1p')
+    content=$(echo "$parsed" | sed -n '2p')
+    meta=$(echo "$parsed" | sed -n '3p')
+    slug=$(echo "$parsed" | sed -n '4p')
+    keywords=$(echo "$parsed" | sed -n '5p')
+
     [ -z "$slug" ] && slug="rezervuar-${model/РГС-/rgs-}-$(date +%Y-%m-%d)"
     log "  Статья: ${title:0:40}..."
-    
+
     # Публикация
     log "  [2/3] Публикация..."
     tg_send "📤 Публикую в WordPress..."
-    local wp_result=$(publish_wp "$title" "$content" "$meta" "$slug")
-    
-    local post_id=$(echo "$wp_result" | python3 -c "import json,sys; print(json.load(sys.stdin).get('id','ERROR'))")
-    local post_url=$(echo "$wp_result" | python3 -c "import json,sys; print(json.load(sys.stdin).get('link',''))")
-    
+    local wp_result
+    wp_result=$(publish_wp "$title" "$content" "$meta" "$slug")
+
+    local post_id post_url
+    post_id=$(echo "$wp_result" | python3 -c "import json,sys; print(json.load(sys.stdin).get('id','ERROR'))")
+    post_url=$(echo "$wp_result" | python3 -c "import json,sys; print(json.load(sys.stdin).get('link',''))")
+
     if [ "$post_id" = "ERROR" ] || [ -z "$post_url" ]; then
         log "  ❌ Ошибка публикации"
         tg_send "❌ Ошибка публикации"
         return 1
     fi
-    
+
     log "  ✅ Опубликовано: $post_url"
-    
+
     # Уведомление
     log "  [3/3] Уведомление"
     tg_send "✅ <b>Статья опубликована!</b>
@@ -134,17 +155,19 @@ run_workflow() {
 🔑 ${keywords}
 
 ✨ 600-800 слов | FAQ | SEO шаблон"
-    
+
     return 0
 }
 
 handle_message() {
-    local text="1" lower=$(echo "$1" | tr '[:upper:]' '[:lower:]')
+    local text="$1"
+    local lower
+    lower=$(echo "$1" | tr '[:upper:]' '[:lower:]')
     log "Сообщение: $1"
-    
+
     case "$lower" in
         "/start"|"/help"|"помощь")
-            tg_send "🤖 <b>SEO Bot v2.0</b>
+            tg_send "🤖 <b>SEO Bot v2.1</b>
 
 Команды:
 • <b>РГС-50</b>, <b>РГС-75</b> — создать статью
@@ -155,45 +178,52 @@ handle_message() {
 ✨ 600-800 слов + FAQ + SEO шаблон"
             ;;
         "статус"|"/status")
-            local posts=$(curl -s "${WP_URL}/wp-json/wp/v2/posts?per_page=3" -H "Authorization: ${WP_AUTH}" 2>/dev/null | python3 -c "import json,sys; p=json.load(sys.stdin); print('\n'.join([f\"• {x['title']['rendered'][:40]}...\" for x in p[:3]]))")
+            local posts
+            posts=$(curl -s "${WP_URL}/wp-json/wp/v2/posts?per_page=3" -H "Authorization: ${WP_AUTH}" 2>/dev/null | python3 -c "import json,sys; p=json.load(sys.stdin); print('\n'.join([f\"• {x['title']['rendered'][:40]}...\" for x in p[:3]]))")
             tg_send "📊 <b>Последние статьи:</b>
 
 ${posts:-Нет данных}"
             ;;
         *)
-            local model=$(echo "$1" | python3 -c "import re,sys; m=re.search(r'[Рр][Гг][Сс][-\s]?(\d+)',sys.stdin.read()); print('РГС-'+m.group(1) if m else '')")
+            local model
+            model=$(echo "$text" | python3 -c "import re,sys; m=re.search(r'[Рр][Гг][Сс][-\s]?(\d+)',sys.stdin.read()); print('РГС-'+m.group(1) if m else '')")
             [ -n "$model" ] && run_workflow "$model" || tg_send "🤔 Напишите модель: <b>РГС-75</b>"
             ;;
     esac
 }
 
 main() {
-    mkdir -p "$(dirname "$LOG")"
+    mkdir -p "$LOG_DIR"
     touch "$OFFSET_FILE"
     log "════════════════════════════════════════"
-    log "  Poller v2.0 запущен"
-    log "  Улучшения: 600-800 слов + FAQ"
+    log "  Poller v2.1 запущен"
+    log "  Улучшения: .env, pipefail, JSON opt"
     log "════════════════════════════════════════"
-    tg_send "🟢 <b>SEO Bot v2.0 активен</b>\n\nНапишите: <b>РГС-75</b>"
-    
-    local offset=$(load_offset)
+    tg_send "🟢 <b>SEO Bot v2.1 активен</b>\n\nНапишите: <b>РГС-75</b>"
+
+    local offset
+    offset=$(load_offset)
     while true; do
-        local updates=$(curl -s --max-time 15 "${TG_API}/getUpdates?offset=${offset}" 2>/dev/null || echo '{"ok":false}')
-        local ok=$(echo "$updates" | python3 -c "import json,sys; print('yes' if json.load(sys.stdin).get('ok') else 'no')" 2>/dev/null || echo "no")
+        local updates
+        updates=$(curl -s --max-time 15 "${TG_API}/getUpdates?offset=${offset}" 2>/dev/null || echo '{"ok":false}')
+        local ok
+        ok=$(echo "$updates" | python3 -c "import json,sys; print('yes' if json.load(sys.stdin).get('ok') else 'no')" 2>/dev/null || echo "no")
         [ "$ok" != "yes" ] && { sleep 5; continue; }
-        
-        local count=$(echo "$updates" | python3 -c "import json,sys; print(len(json.load(sys.stdin).get('result',[])))" 2>/dev/null || echo 0)
-        
+
+        local count
+        count=$(echo "$updates" | python3 -c "import json,sys; print(len(json.load(sys.stdin).get('result',[])))" 2>/dev/null || echo 0)
+
         if [ "$count" -gt 0 ]; then
             log "$count сообщений"
-            echo "$updates" | python3 -c "import json,sys; [print(json.dumps(u)) for u in json.load(sys.stdin).get('result',[])]" | while read line; do
-                local upd_id=$(echo "$line" | python3 -c "import json,sys; print(json.load(sys.stdin)['update_id'])" 2>/dev/null || continue)
-                local msg=$(echo "$line" | python3 -c "import json,sys; print(json.load(sys.stdin).get('message',{}).get('text',''))" 2>/dev/null)
-                local chat=$(echo "$line" | python3 -c "import json,sys; print(json.load(sys.stdin).get('message',{}).get('chat',{}).get('id',''))" 2>/dev/null)
+            while IFS= read -r line; do
+                local upd_id msg chat
+                upd_id=$(echo "$line" | python3 -c "import json,sys; print(json.load(sys.stdin)['update_id'])" 2>/dev/null) || continue
+                msg=$(echo "$line" | python3 -c "import json,sys; print(json.load(sys.stdin).get('message',{}).get('text',''))" 2>/dev/null)
+                chat=$(echo "$line" | python3 -c "import json,sys; print(json.load(sys.stdin).get('message',{}).get('chat',{}).get('id',''))" 2>/dev/null)
                 [ "$chat" = "$TG_CHAT" ] && [ -n "$msg" ] && handle_message "$msg"
                 offset=$((upd_id + 1))
                 save_offset "$offset"
-            done
+            done < <(echo "$updates" | python3 -c "import json,sys; [print(json.dumps(u)) for u in json.load(sys.stdin).get('result',[])]")
         fi
         sleep 2
     done

@@ -6,11 +6,19 @@
 # ============================================================
 
 set -e
-LOG="/home/askerspencer/.openfang/data/seo_workflow.log"
-OF="/home/askerspencer/.openfang/bin/openfang"
-WP_AUTH="Basic c2VvYWRtaW46ZGtaUE1nc3JXaWZacFZjRmNOaklhREFO"
-TG_TOKEN="8591048587:AAElSAdCnxpHja3ujJpTQzp5HQBPw9BHVvw"
-TG_CHAT="283500912"
+
+# Загружаем секреты из .env
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -f "${SCRIPT_DIR}/.env" ]; then
+    # shellcheck source=.env
+    source "${SCRIPT_DIR}/.env"
+else
+    echo "ОШИБКА: файл .env не найден. Скопируйте .env.example → .env" >&2
+    exit 1
+fi
+
+LOG="${LOG_DIR}/seo_workflow.log"
+OF="${OF_BIN}"
 
 # Текущая дата для slug и имён файлов
 TODAY=$(date +%Y-%m-%d)
@@ -36,7 +44,7 @@ if [ ! -d "$UPLOADS_DIR" ]; then
     mkdir -p "$UPLOADS_DIR" 2>/dev/null || true
     log "Создана папка uploads: $UPLOADS_DIR"
 fi
-chmod 777 "$UPLOADS_DIR" 2>/dev/null || true
+chmod 755 "$UPLOADS_DIR" 2>/dev/null || true
 log "Права uploads OK: $UPLOADS_DIR"
 
 # ── ШАГ 1: Парсинг страницы резервуара ──────────────────────
@@ -71,9 +79,8 @@ fi
 log "Тип изображения: $IMG_TYPE"
 
 # Генерируем изображение через OpenRouter API напрямую
-# modalities=["text","image"] обязателен — без него Gemini возвращает только текст
 IMG_RESULT=$(curl -s -X POST "https://openrouter.ai/api/v1/chat/completions" \
-  -H "Authorization: Bearer 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" \
+  -H "Authorization: Bearer ${OPENROUTER_KEY_WORKFLOW}" \
   -H "Content-Type: application/json" \
   -d "{
     \"model\": \"google/gemini-2.5-flash-image\",
@@ -85,7 +92,6 @@ IMG_RESULT=$(curl -s -X POST "https://openrouter.ai/api/v1/chat/completions" \
   }" 2>/dev/null)
 
 # OpenRouter возвращает изображение в message.images (не в content)
-# Структура: choices[0].message.images[0].image_url.url = "data:image/png;base64,..."
 IMG_B64=$(echo "$IMG_RESULT" | python3 -c "
 import json, sys, re
 try:
@@ -124,9 +130,9 @@ except Exception as e:
 
 IMG_PATH=""
 if [ -n "$IMG_B64" ]; then
-    IMG_PATH="/tmp/rezervuar_$(date +%Y%m%d)_${IMG_TYPE}.png"
+    IMG_PATH=$(mktemp "/tmp/rezervuar_${TODAY_SHORT}_${IMG_TYPE}_XXXXXX.png")
     echo "$IMG_B64" | base64 -d > "$IMG_PATH" 2>/dev/null
-    log "Изображение сохранено: $IMG_PATH ($(du -sh $IMG_PATH 2>/dev/null | cut -f1))"
+    log "Изображение сохранено: $IMG_PATH ($(du -sh "$IMG_PATH" 2>/dev/null | cut -f1))"
 else
     log "Изображение не сгенерировано (модель не вернула картинку), продолжаем без него"
 fi
@@ -157,7 +163,7 @@ fi
 
 ARTICLE_RESPONSE=$(echo "$SEO_RESPONSE" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('response',''))" 2>/dev/null)
 
-# Убираем markdown-обёртку если есть
+# Убираем markdown-обёртку если есть, парсим JSON один раз
 ARTICLE_JSON=$(echo "$ARTICLE_RESPONSE" | python3 -c "
 import sys, json, re
 text = sys.stdin.read()
@@ -168,11 +174,20 @@ if match:
     print(match.group(0))
 " 2>/dev/null)
 
-ARTICLE_TITLE=$(echo "$ARTICLE_JSON" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['title'])" 2>/dev/null)
-ARTICLE_CONTENT=$(echo "$ARTICLE_JSON" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['content'])" 2>/dev/null)
-ARTICLE_META=$(echo "$ARTICLE_JSON" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('meta_description',''))" 2>/dev/null)
-# Slug: берём из JSON агента + добавляем дату чтобы не было дублей
-ARTICLE_SLUG_BASE=$(echo "$ARTICLE_JSON" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('slug','rezervuar-rgs-50'))" 2>/dev/null)
+# Парсим все поля за один вызов Python
+ARTICLE_PARSED=$(echo "$ARTICLE_JSON" | python3 -c "
+import json, sys
+d = json.load(sys.stdin)
+print(d.get('title', ''))
+print(d.get('content', ''))
+print(d.get('meta_description', ''))
+print(d.get('slug', 'rezervuar-rgs-50'))
+" 2>/dev/null)
+
+ARTICLE_TITLE=$(echo "$ARTICLE_PARSED" | sed -n '1p')
+ARTICLE_CONTENT=$(echo "$ARTICLE_PARSED" | sed -n '2p')
+ARTICLE_META=$(echo "$ARTICLE_PARSED" | sed -n '3p')
+ARTICLE_SLUG_BASE=$(echo "$ARTICLE_PARSED" | sed -n '4p')
 ARTICLE_SLUG="${ARTICLE_SLUG_BASE}-${TODAY}"
 
 log "Статья готова: $ARTICLE_TITLE"
@@ -215,9 +230,18 @@ WP_RESULT=$(curl -s -X POST "http://localhost/wp-json/wp/v2/posts" \
     -H "Content-Type: application/json" \
     -d "$WP_PAYLOAD" 2>/dev/null)
 
-POST_ID=$(echo "$WP_RESULT" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('id','ERROR'))" 2>/dev/null)
-POST_URL=$(echo "$WP_RESULT" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('link',''))" 2>/dev/null)
-POST_STATUS=$(echo "$WP_RESULT" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('status',''))" 2>/dev/null)
+# Парсим результат WordPress одним вызовом
+WP_PARSED=$(echo "$WP_RESULT" | python3 -c "
+import json, sys
+d = json.load(sys.stdin)
+print(d.get('id', 'ERROR'))
+print(d.get('link', ''))
+print(d.get('status', ''))
+" 2>/dev/null)
+
+POST_ID=$(echo "$WP_PARSED" | sed -n '1p')
+POST_URL=$(echo "$WP_PARSED" | sed -n '2p')
+POST_STATUS=$(echo "$WP_PARSED" | sed -n '3p')
 
 log "Опубликовано: ID=$POST_ID STATUS=$POST_STATUS"
 log "URL: $POST_URL"
